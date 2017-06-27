@@ -16,8 +16,9 @@ tech stack:
 
 *Install:*
 
-- protoc (https://github.com/google/protobuf/releases)
 - go (https://golang.org/doc/install)
+- protoc (https://github.com/google/protobuf/releases)
+- docker (https://docs.docker.com/engine/installation)
 - kubectl (https://kubernetes.io/docs/tasks/tools/install-kubectl)
 - minikube (https://github.com/kubernetes/minikube)
 
