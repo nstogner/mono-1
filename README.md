@@ -38,20 +38,22 @@ ls
 # Create a reverse proxy
 ./mono.sh bp proxy gateway
 
-# Mono scaffolded out a working service
+# Mono scaffolded out go code
 tree go/src/internal
 # go/src/internal
-# └── example
-#     ├── cmd
-#     │   ├── grpcd
-#     │   │   ├── exampleservice.go
-#     │   │   └── main.go
-#     │   └── httpd
-#     │       └── main.go
-#     ├── example.pb.go
-#     └── example.pb.gw.go
-# 
-# 4 directories, 5 files
+# ├── example
+# │   ├── cmd
+# │   │   ├── grpcd
+# │   │   │   ├── exampleservice.go
+# │   │   │   └── main.go
+# │   │   └── httpd
+# │   │       └── main.go
+# │   ├── example.pb.go
+# │   └── example.pb.gw.go
+# └── gateway
+#     └── cmd
+#         └── httpd
+#             └── main.go
 
 # Start a local kubernetes cluster
 minikube start --kubernetes-version v1.6.4
