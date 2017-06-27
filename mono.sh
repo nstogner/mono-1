@@ -26,7 +26,8 @@ runInit() {
     echo "bin/" >> $this_dir/go/.gitignore
     echo "pkg/" >> $this_dir/go/.gitignore
 
-    go get github.com/upgear/blueprint/template-api-kubernetes/...
+    go get github.com/upgear/blueprint/gocmd/template-api-kube-conf/...
+    cp $GOPATH/src/github.com/upgear/blueprint/examples/example.proto protobuf
 }
 
 # Enforce dependencies
