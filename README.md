@@ -1,10 +1,20 @@
 # Mono
 
+The repo contains tooling for managing a mono repo. It is based on the following
+tech stack:
+
+- Git
+- Docker
+- Kubernetes
+- gRPC
+- REST (via gRPC gateway)
+- Golang (+ more later)
+
 ```sh
 $ mkdir repo && cd repo
 
 # Fetch the mono script
-$ wget https://raw.githubusercontent.com/upgear/mono/master/mono.s://raw.githubusercontent.com/upgear/mono/master/mono.sh && chmod +x mono.sh
+$ wget https://raw.githubusercontent.com/upgear/mono/master/mono.sh && chmod +x mono.sh
 
 # Initialize a mono repo
 $ ./mono.sh init
