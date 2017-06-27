@@ -21,13 +21,13 @@ runInit() {
 
     git init
     export GOPATH=$this_dir/go
-    mkdir $this_dir/{go,kubernetes,protobuf,docker}
+    mkdir $this_dir/{go,scripts,kubernetes,protobuf,docker}
 
     echo "bin/" >> $this_dir/go/.gitignore
     echo "pkg/" >> $this_dir/go/.gitignore
 
-    go get github.com/upgear/blueprint/gocmd/template-api-kube-conf/...
-    cp $GOPATH/src/github.com/upgear/blueprint/example.proto protobuf
+    git clone https://github.com/upgear/blueprint $this_dir/scripts/blueprint
+    cp $this_dir/scripts/blueprint/example.proto protobuf
 }
 
 # Enforce dependencies
@@ -51,14 +51,14 @@ case $subcmd in
     bp)
         repo=$(git rev-parse --show-toplevel)
 
-        export BP_DOCKER_IMAGE=gcr.io/YOUR_GCLOUD_PROJECT_HERE/masterkube
+        #export BP_DOCKER_IMAGE=gcr.io/YOUR_GCLOUD_PROJECT_HERE/masterkube
         export BP_PROTO_DIR=$repo/protobuf
         export BP_KUBE_DIR=$repo/kubernetes
         export BP_DOCKER_DIR=$repo/docker
         export GOPATH=$repo/go
 
         export BP_OUTPUT_DIR=$repo/go/src/internal
-        source $GOPATH/src/github.com/upgear/blueprint/blueprint.sh $@
+        source $this_dir/scripts/blueprint/blueprint.sh $@
         ;;
     *)
         echo "Invalid subcommand: $subcmd" >&2
