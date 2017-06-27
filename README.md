@@ -14,8 +14,12 @@ tech stack:
 
 #### Prerequisites
 
-- Install protoc (https://github.com/google/protobuf/releases)
-- Install go (https://golang.org/doc/install)
+*Install:*
+
+- protoc (https://github.com/google/protobuf/releases)
+- go (https://golang.org/doc/install)
+- kubectl (https://kubernetes.io/docs/tasks/tools/install-kubectl)
+- minikube (https://github.com/kubernetes/minikube)
 
 #### Example
 
