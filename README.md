@@ -1,14 +1,29 @@
 # Mono
 
-The repo contains tooling for managing a mono repo. It is based on the following
-tech stack:
+The repo contains tooling for managing a mono repo.
 
-- Git
-- Docker
-- Kubernetes
-- gRPC
-- REST (via gRPC gateway)
-- Golang (+ more later)
+The central premise is that a single repo should declaratively describe the
+entirety of a project. Terraform is used to provision infrastructure from
+configuration files. Kubernetes is used to deploy and run applications in
+a declarative manner. Finally, protobufs are used to describe and generate
+services. All of these files are stored in a consistent manner inside of a
+single repo. The result: an engineer can read through the repo and immediately
+understand the state of the project.
+
+Scaffolding is heavily used to reduce the time required to spin up a new project
+or api. The `init` command will scaffold the repo directory structure and some
+scripts. The `blueprint` command will scaffold out new apis from protobuf
+definitions.
+
+It is based on the following tech stack:
+
+- Git (Source Code Management)
+- Docker (Application Builds/Environment)
+- Kubernetes (Application Deployment/Operations)
+- Terraform (Infrastructure Provisioning)
+- gRPC (Service Interfaces - Backend)
+- REST (Service Interfaces - Frontend)
+- Golang (Programming Language)
 
 ## Quickstart
 
@@ -19,6 +34,7 @@ tech stack:
 - go (https://golang.org/doc/install)
 - protoc (https://github.com/google/protobuf/releases)
 - docker (https://docs.docker.com/engine/installation)
+- terraform (https://www.terraform.io/intro/getting-started/install.html)
 - kubectl (https://kubernetes.io/docs/tasks/tools/install-kubectl)
 - minikube (https://github.com/kubernetes/minikube)
 

@@ -8,36 +8,54 @@ usage ()
     echo
     echo "Subcommands:"
     echo "  help"
-    echo "  init  Setup mono-repo"
-    echo "  bp    Run blueprint"
+    echo "  init       Setup mono-repo"
+    echo "  blueprint  Run blueprint"
     exit 1
 }
 
-runInit() {
-    if [ -f $this_dir/mono.env ]; then
-        (>&2 echo "mono.env exists: looks like this repo has already been setup")
-        exit 1
-    fi
+scaffoldTerraform() {
+cat >terraform/gcloud.tf << EOL
+// Configure the Google Cloud provider
+provider "google" {
+  project     = "YOUR_PROJECT"
+  region      = "us-central1"
+}
 
+resource "google_container_cluster" "primary" {
+  name               = "mono-cluster"
+  zone               = "us-central1-a"
+  initial_node_count = 3
+
+  additional_zones = []
+
+  node_config {
+    machine_type = "f1-micro"
+    disk_size_gb = 10
+    oauth_scopes = [
+      "https://www.googleapis.com/auth/compute",
+      "https://www.googleapis.com/auth/sqlservice",
+      "https://www.googleapis.com/auth/devstorage.read_only",
+      "https://www.googleapis.com/auth/logging.write",
+      "https://www.googleapis.com/auth/monitoring",
+    ]
+  }
+}
+EOL
+}
+
+runInit() {
     git init
     export GOPATH=$this_dir/go
-    mkdir $this_dir/{go,scripts,kubernetes,protobuf,docker}
+    mkdir {go,scripts,kubernetes,terraform,protobuf,docker}
+    echo "bin/" >> go/.gitignore
+    echo "pkg/" >> go/.gitignore
 
-    echo "bin/" >> $this_dir/go/.gitignore
-    echo "pkg/" >> $this_dir/go/.gitignore
+    scaffoldTerraform
 
-    git clone https://github.com/upgear/blueprint $this_dir/scripts/blueprint
-    cp $this_dir/scripts/blueprint/example.proto protobuf
+    git clone https://github.com/upgear/blueprint scripts/blueprint
+    rm -rf scripts/blueprint/.git
+    cp scripts/blueprint/example.proto protobuf
 }
-
-# Enforce dependencies
-must_be_a_thing() {
-    if ! type "$1" > /dev/null; then
-        (>&2 echo "install $1 in your PATH before continuing $2")
-        exit 1
-    fi
-}
-must_be_a_thing go '(https://golang.org/doc/install)'
 
 subcmd=$1
 shift
@@ -48,7 +66,7 @@ case $subcmd in
     init)
         runInit
         ;;
-    bp)
+    blueprint)
         repo=$(git rev-parse --show-toplevel)
 
         #export BP_DOCKER_IMAGE=gcr.io/YOUR_GCLOUD_PROJECT_HERE/masterkube
